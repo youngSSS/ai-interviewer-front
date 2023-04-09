@@ -51,7 +51,11 @@ const UserMessageInput = observer(() => {
       token
     );
     console.log(botResponse);
-    addMessage({ role: "bot", text: botResponse.bot_chat.text });
+    addMessage({
+      role: "bot",
+      text: botResponse.bot_chat.text,
+      voice: botResponse.bot_chat.voice,
+    });
   };
 
   return (

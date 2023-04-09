@@ -8,7 +8,6 @@ import UserStoreContext from "../store/user_store_context";
 import EndInterviewButton from "../components/buttons/end_interview_button";
 import InterviewSettingsPage from "./interview_setting_page";
 import InterviewHistoryPage from "./interview_hitory_page";
-import StartInterviewButton from "../components/buttons/start_interview_button";
 import { UserType } from "../constants";
 
 const Container = styled.div`

@@ -56,7 +56,7 @@ const StartInterviewButton = observer((props: { idx: number }) => {
     addMessage({
       role: "bot",
       text: botResponse.text,
-      voice: botResponse.voide,
+      voice: botResponse.voice,
     });
   };
 
