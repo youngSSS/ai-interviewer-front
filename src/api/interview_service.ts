@@ -12,7 +12,7 @@ export const startInterview = async (
 
   try {
     const response = await fetch(
-      `http://${serverAddr}/users/${userId}/interview`,
+      `https://${serverAddr}/users/${userId}/interview`,
       {
         method: "POST",
         headers: {
@@ -40,7 +40,7 @@ export const endInterview = async (
   if (!token) return;
   try {
     const response = await fetch(
-      `http://${serverAddr}/users/${userId}/interviews/${interviewId}/end`,
+      `https://${serverAddr}/users/${userId}/interviews/${interviewId}/end`,
       {
         method: "POST",
         headers: {
@@ -68,7 +68,7 @@ export const fetchBotResponse = async (
   }
   try {
     const response = await fetch(
-      `http://${serverAddr}/users/${userId}/interviews/${interviewId}/user-chat`,
+      `https://${serverAddr}/users/${userId}/interviews/${interviewId}/user-chat`,
       {
         method: "POST",
         headers: {
