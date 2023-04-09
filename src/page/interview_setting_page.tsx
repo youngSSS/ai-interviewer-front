@@ -87,9 +87,6 @@ const SettingContainer = styled.div`
   min-height: max-content;
 `;
 
-const Modal = styled.div`
-`
-
 const ActionButton = styled.button`
   border: none;
   padding: 5px 10px;
@@ -104,6 +101,20 @@ const ActionButton = styled.button`
     cursor: pointer;
   }
 `;
+
+const ModalRow = styled.div`
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+`
+
+const ModalRowTitle = styled.div`
+  font-size: 15px;
+  margin-right: 10px;
+`
+
+const ModalRowInput = styled.div`
+`
 
 const InterviewSettingsPage = observer(() => {
   const [showModal, setShowModal] = useState(false);
@@ -260,34 +271,43 @@ const InterviewSettingsPage = observer(() => {
           </SettingRow>
         ))}
         {showModal && (
-          <Modal>
-            <Dialog open={showModal} onClose={handleDialogOnClose}>
-              <label>
-                Setting Title:
+          <Dialog open={showModal} onClose={handleDialogOnClose}>
+            <ModalRow>
+              <ModalRowTitle>
+                셋팅 제목:
+              </ModalRowTitle>
+              <ModalRowInput>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-              </label>
-              <label>
-                Job Title:
-                <textarea
+              </ModalRowInput>
+            </ModalRow>
+            <ModalRow>
+              <ModalRowTitle>
+                직무 설명:
+              </ModalRowTitle>
+              <ModalRowInput>
+                <input
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
                 />
-              </label>
-              <label>
-                Company Type:
-                <textarea
+              </ModalRowInput>
+            </ModalRow>
+            <ModalRow>
+              <ModalRowTitle>
+                지원회사 설명:
+              </ModalRowTitle>
+              <ModalRowInput>
+                <input
                   value={companyType}
                   onChange={(e) => setCompanyType(e.target.value)}
                 />
-              </label>
-              <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
-            </Dialog>
-          </Modal>
-
+              </ModalRowInput>
+            </ModalRow>
+            <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
+          </Dialog>
         )}
       </SettingContainer>
     </Container>
