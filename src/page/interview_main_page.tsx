@@ -51,18 +51,35 @@ const ChatMessageText = styled.div<{ role: "user" | "bot" | "admin" }>`
   max-width: 70%;
 `;
 
-const LeftPanel = styled.div`
+const Panel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 20%;
+  width: 40%;
   height: 80%;
   background-color: white;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-right: 10px;
+`;
+
+const TopPanel = styled.div`
+  flex-basis: 50%;
+  flex-direction: row;
+  width: 100%;
+  height: 20%;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+const BottomPanel = styled.div`
+  flex-basis: 50%;
+  flex-direction: row;
+  width: 100%;
+  height: 20%;
+  padding: 10px;
 `;
 
 const PanelTitle = styled.h2`
@@ -96,14 +113,14 @@ const InterviewPage = observer(() => {
   return (
     <Container>
       <PanelContainer>
-        <LeftPanel>
-          <InterviewSettingsPage />
-        </LeftPanel>
-        <LeftPanel>
-          <PanelTitle>
+        <Panel>
+          <TopPanel>
+            <InterviewSettingsPage />
+          </TopPanel>
+          <BottomPanel>
             <InterviewHistoryPage />
-          </PanelTitle>
-        </LeftPanel>
+          </BottomPanel>
+        </Panel>
         <InterviewContainer ref={scrollableContainerRef}>
           {messages.map((message, index) => (
             <ChatMessage key={index} role={message?.role}>

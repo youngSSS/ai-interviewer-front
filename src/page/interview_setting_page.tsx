@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { Interview, InterviewSetting } from "../types.ts/schems";
-import { Dialog } from "@mui/material";
+import React, {useContext, useEffect, useState} from "react";
+import {observer} from "mobx-react-lite";
+import {Interview, InterviewSetting} from "../types.ts/schems";
+import {Dialog} from "@mui/material";
 import InterviewSettingStoreConext from "../store/interview_setting_store_context";
 import styled from "styled-components";
 import {
@@ -9,28 +9,68 @@ import {
   fetchInterviewHistory as fetchInterviewHistoryService,
   fetchInterviewSettings as fetchInterviewSettingsService,
 } from "../api/interview_setting_service";
-import { useUserStore } from "../store/user_store_context";
+import {useUserStore} from "../store/user_store_context";
 import StartInterviewButton from "../components/buttons/start_interview_button";
 import AddIcon from "@mui/icons-material/Add";
 
 const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
 `;
 
 const Header = styled.h1`
+  display: flex;
   font-size: 20px;
   margin-bottom: 20px;
+  justify-content: space-between;
 `;
 
+const Button = styled.button`
+  background-color: #2979ff;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1854a5;
+  }
+
+  &:active {
+    background-color: #0b2c4d;
+  }
+`;
+
+const SettingRow = styled.div`
+  padding: 5px;
+  display: flex;
+  gap: 7px;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const SettingRowTitle = styled.div`
+  text-align: left !important;
+  max-width: 150px;
+`
+
+const SettingRowBody = styled.div`
+  padding: 5px;
+  display: flex;
+  gap: 7px;
+  max-height: 30px;
+`
+
 const AddButton = styled.button`
+  display: flex;
   background-color: #2979ff;
   border: none;
   color: white;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
@@ -39,18 +79,19 @@ const AddButton = styled.button`
 
 const SettingContainer = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+  min-height: max-content;
 `;
 
+const Modal = styled.div`
+`
+
 const ActionButton = styled.button`
-  background-color: #2979ff;
   border: none;
-  color: white;
   padding: 5px 10px;
   text-align: center;
   text-decoration: none;
@@ -81,7 +122,7 @@ const InterviewSettingsPage = observer(() => {
     setSelectdeId,
     selectedIdx,
   } = useContext(InterviewSettingStoreConext);
-  const { userId, token } = useUserStore();
+  const {userId, token} = useUserStore();
   const handleDialogOnClose = () => setShowModal(false);
 
   // useEffect(() => {
@@ -173,7 +214,7 @@ const InterviewSettingsPage = observer(() => {
     );
 
     const convertToCamelCase = (interview: any) => {
-      const { id, interview_setting_id, user_id, chats, created_at, ended_at } =
+      const {id, interview_setting_id, user_id, chats, created_at, ended_at} =
         interview;
       const camelCaseInterview = {
         id,
@@ -197,57 +238,56 @@ const InterviewSettingsPage = observer(() => {
 
   return (
     <Container>
-      <div>
-        <Header>인터뷰 셋팅 목록</Header>
+      <Header>
+        인터뷰 셋팅 목록
         <AddButton onClick={handleInitCreateSetting}>
+          <AddIcon/>
           셋팅 생성
-          <AddIcon />
         </AddButton>
-      </div>
+      </Header>
       <SettingContainer>
         {interviewSettings?.map((setting: InterviewSetting, idx) => (
-          <div key={idx}>
-            <ActionButton>{setting.title}</ActionButton>
-            <ActionButton onClick={async () => await handleHistoryOnClick(idx)}>
-              면접 기록 조회
-            </ActionButton>
-            {/* <ActionButton
-              onClick={async () => await handleEditSetting(idx, setting)}
-            >
-              Edit
-            </ActionButton> */}
-            <StartInterviewButton idx={idx} />
-            {/* <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
-              삭제
-            </ActionButton> */}
-          </div>
+          <SettingRow key={idx}>
+            <SettingRowTitle>
+              {setting.title}
+            </SettingRowTitle>
+            <SettingRowBody>
+              <Button onClick={async () => await handleHistoryOnClick(idx)}>
+                면접 기록 조회
+              </Button>
+              <StartInterviewButton idx={idx}/>
+            </SettingRowBody>
+          </SettingRow>
         ))}
         {showModal && (
-          <Dialog open={showModal} onClose={handleDialogOnClose}>
-            <label>
-              Setting Title:
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Job Title:
-              <textarea
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Company Type:
-              <textarea
-                value={companyType}
-                onChange={(e) => setCompanyType(e.target.value)}
-              />
-            </label>
-            <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
-          </Dialog>
+          <Modal>
+            <Dialog open={showModal} onClose={handleDialogOnClose}>
+              <label>
+                Setting Title:
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </label>
+              <label>
+                Job Title:
+                <textarea
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                />
+              </label>
+              <label>
+                Company Type:
+                <textarea
+                  value={companyType}
+                  onChange={(e) => setCompanyType(e.target.value)}
+                />
+              </label>
+              <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
+            </Dialog>
+          </Modal>
+
         )}
       </SettingContainer>
     </Container>
