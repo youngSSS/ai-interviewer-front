@@ -90,7 +90,6 @@ const InterviewHistoryPage = observer(() => {
               <Button onClick={() => handleRenderHistory(interview)}>
                 인터뷰 기록 보기
               </Button>
-              <StartInterviewButton idx={idx} />
             </SettingRowBody>
           </InterviewRow>
         ))}
