@@ -1,66 +1,87 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useState} from "react";
+import {FormControl, FormLabel, Radio, RadioGroup, Container, Typography} from "@mui/material";
 
-const GOOGLE_CLIENT_ID = "257803826922-p7l2c9u53568cjlipnhl7032on6vbtsc.apps.googleusercontent.com";
-const GOOGLE_REDIRECT_URI = "http://localhost:8080/sign-in/oauth/google";
+import googleIcon from '../google_sign_in.png'
 
-const SignInPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+const theme = createTheme();
 
-  const handleGoogleLogin = () => {
-    const url = `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&response_type=code&scope=profile%20email&state=some-random-state-string`;
-    window.location.href = url;
+export default function SignIn() {
+    const [selectedOption, setSelectedOption] = useState('user');
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
-
-  const handleLogout = async () => {
-    try {
-      await axios.post("/auth/logout");
-      setIsLoggedIn(false);
-      setUserInfo(null);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleGoogleCallback = async (code, state) => {
-    try {
-      const response = await axios.post("/auth/google/callback", {
-        code,
-        state,
-      });
-      console.log(response.data);
-      setIsLoggedIn(true);
-      setUserInfo(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    console.log('useEffect')
-    // Check if the URL has a code and state parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    const state = urlParams.get("state");
-    if (code && state) {
-      handleGoogleCallback(code, state);
-    }
-  }, []);
 
   return (
-    <div>
-      {isLoggedIn ? (
-        <div>
-          <p>Welcome, {userInfo && userInfo.name}!</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <button onClick={handleGoogleLogin}>Login with Google</button>
-      )}
-    </div>
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Start AI Interviewer
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <FormControl>
+                    <FormLabel id="demo-radio-buttons-group-label">Sign in as</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        value={selectedOption}
+                        onChange={handleOptionChange}
+                    >
+                        <FormControlLabel
+                            value="user"
+                            control={<Radio size="small" checked={selectedOption === 'user'} />}
+                            label="user"
+                        />
+                        <FormControlLabel
+                            value="enterprise"
+                            control={<Radio size="small" checked={selectedOption === 'enterprise'} />}
+                            label="enterprise"
+                        />
+                    </RadioGroup>
+                </FormControl>
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+              >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <img src={googleIcon} width={20} alt="My custom image" />
+                      <p>Continue with Google</p>
+                  </div>
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </ThemeProvider>
   );
 }
-
-
-export default SignInPage
