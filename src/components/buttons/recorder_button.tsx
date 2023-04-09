@@ -17,7 +17,6 @@ const Recorder = styled.button`
   color: white;
   position: fixed;
   bottom: 250px;
-  left: 300px
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
