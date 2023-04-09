@@ -16,12 +16,13 @@ import {
   Typography,
 } from "@mui/material";
 import googleIcon from "../google_sign_in.png";
+import {serverAddr} from "../constants"
 
 const theme = createTheme();
 const GOOGLE_CLIENT_ID =
   "257803826922-p7l2c9u53568cjlipnhl7032on6vbtsc.apps.googleusercontent.com";
 const GOOGLE_SIGN_IN_URI = "https://accounts.google.com/o/oauth2/auth";
-const GOOGLE_REDIRECT_URI = "http://localhost:8080/sign-in/oauth/google";
+const GOOGLE_REDIRECT_URI = `http://${serverAddr}/sign-in/oauth/google`;
 
 export default function SignIn() {
   const [selectedOption, setSelectedOption] = useState("individual");

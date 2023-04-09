@@ -1,3 +1,5 @@
+import {serverAddr} from "../constants";
+
 export const createInterviewSetting = async (
   userId?: string,
   title?: string,
@@ -14,7 +16,7 @@ export const createInterviewSetting = async (
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interview-setting`,
+      `http://${serverAddr}/users/${userId}/interview-setting`,
       {
         method: "POST",
         headers: {
@@ -47,7 +49,7 @@ export const fetchInterviewSettings = async (
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interview-settings`,
+      `http://${serverAddr}/users/${userId}/interview-settings`,
       {
         method: "GET",
         headers: {
@@ -72,7 +74,7 @@ export const fetchInterviewHistory = async (
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interview-settings/${interview_setting_id}/interviews`,
+      `http://${serverAddr}/users/${userId}/interview-settings/${interview_setting_id}/interviews`,
       {
         method: "GET",
         headers: {

@@ -1,3 +1,5 @@
+import {serverAddr} from "../constants";
+
 export const startInterview = async (
   userId?: string,
   interviewSettingId?: string,
@@ -10,7 +12,7 @@ export const startInterview = async (
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interview`,
+      `http://${serverAddr}/users/${userId}/interview`,
       {
         method: "POST",
         headers: {
@@ -38,7 +40,7 @@ export const endInterview = async (
   if (!token) return;
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interviews/${interviewId}/end`,
+      `http://${serverAddr}/users/${userId}/interviews/${interviewId}/end`,
       {
         method: "POST",
         headers: {
@@ -66,7 +68,7 @@ export const fetchBotResponse = async (
   }
   try {
     const response = await fetch(
-      `http://127.0.0.1:8080/users/${userId}/interviews/${interviewId}/user-chat`,
+      `http://${serverAddr}/users/${userId}/interviews/${interviewId}/user-chat`,
       {
         method: "POST",
         headers: {
