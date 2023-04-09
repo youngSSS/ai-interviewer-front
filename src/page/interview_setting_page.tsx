@@ -15,24 +15,63 @@ import AddIcon from "@mui/icons-material/Add";
 import { UserType } from "../constants";
 import { convertToObject } from "typescript";
 
-const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
+const Container = styled.div``;
 
 const Header = styled.h1`
+  display: flex;
   font-size: 20px;
   margin-bottom: 20px;
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  background-color: #2979ff;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1854a5;
+  }
+
+  &:active {
+    background-color: #0b2c4d;
+  }
+`;
+
+const SettingRow = styled.div`
+  padding: 5px;
+  display: flex;
+  gap: 7px;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const SettingRowTitle = styled.div`
+  text-align: left !important;
+  max-width: 150px;
+`;
+
+const SettingRowBody = styled.div`
+  padding: 5px;
+  display: flex;
+  gap: 7px;
+  max-height: 30px;
 `;
 
 const AddButton = styled.button`
+  display: flex;
   background-color: #2979ff;
   border: none;
   color: white;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
@@ -41,18 +80,16 @@ const AddButton = styled.button`
 
 const SettingContainer = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+  min-height: max-content;
 `;
 
 const ActionButton = styled.button`
-  background-color: #2979ff;
   border: none;
-  color: white;
   padding: 5px 10px;
   text-align: center;
   text-decoration: none;
@@ -65,6 +102,19 @@ const ActionButton = styled.button`
     cursor: pointer;
   }
 `;
+
+const ModalRow = styled.div`
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ModalRowTitle = styled.div`
+  font-size: 15px;
+  margin-right: 10px;
+`;
+
+const ModalRowInput = styled.div``;
 
 const InterviewSettingsPage = observer(() => {
   const [showModal, setShowModal] = useState(false);
@@ -198,58 +248,55 @@ const InterviewSettingsPage = observer(() => {
 
   return (
     <Container>
-      <div>
-        <Header>인터뷰 셋팅 목록</Header>
+      <Header>
+        인터뷰 셋팅 목록
         <AddButton onClick={handleInitCreateSetting}>
-          셋팅 생성
           <AddIcon />
+          셋팅 생성
         </AddButton>
-      </div>
+      </Header>
       <SettingContainer>
         {interviewSettings?.map((setting: InterviewSetting, idx) => (
-          <div key={idx}>
-            <ActionButton>{setting.title}</ActionButton>
-            <ActionButton onClick={async () => await handleHistoryOnClick(idx)}>
-              면접 기록 조회
-            </ActionButton>
-            {/* <ActionButton
-              onClick={async () => await handleEditSetting(idx, setting)}
-            >
-              Edit
-            </ActionButton> */}
-
-            {userType === UserType.INDIVIDUAL && (
+          <SettingRow key={idx}>
+            <SettingRowTitle>{setting.title}</SettingRowTitle>
+            <SettingRowBody>
+              <Button onClick={async () => await handleHistoryOnClick(idx)}>
+                면접 기록 조회
+              </Button>
               <StartInterviewButton idx={idx} />
-            )}
-            <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
-              삭제
-            </ActionButton>
-          </div>
+            </SettingRowBody>
+          </SettingRow>
         ))}
         {showModal && (
           <Dialog open={showModal} onClose={handleDialogOnClose}>
-            <label>
-              Setting Title:
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Job Title:
-              <textarea
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Company Type:
-              <textarea
-                value={companyType}
-                onChange={(e) => setCompanyType(e.target.value)}
-              />
-            </label>
+            <ModalRow>
+              <ModalRowTitle>셋팅 제목:</ModalRowTitle>
+              <ModalRowInput>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </ModalRowInput>
+            </ModalRow>
+            <ModalRow>
+              <ModalRowTitle>직무 설명:</ModalRowTitle>
+              <ModalRowInput>
+                <input
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                />
+              </ModalRowInput>
+            </ModalRow>
+            <ModalRow>
+              <ModalRowTitle>지원회사 설명:</ModalRowTitle>
+              <ModalRowInput>
+                <input
+                  value={companyType}
+                  onChange={(e) => setCompanyType(e.target.value)}
+                />
+              </ModalRowInput>
+            </ModalRow>
             <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
           </Dialog>
         )}
