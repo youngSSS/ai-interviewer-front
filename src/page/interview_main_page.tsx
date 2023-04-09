@@ -9,6 +9,7 @@ import EndInterviewButton from "../components/buttons/end_interview_button";
 import InterviewSettingsPage from "./interview_setting_page";
 import InterviewHistoryPage from "./interview_hitory_page";
 import StartInterviewButton from "../components/buttons/start_interview_button";
+import { UserType } from "../constants";
 
 const Container = styled.div`
   display: flex;
@@ -79,7 +80,8 @@ const PanelContainer = styled.div`
 
 const InterviewPage = observer(() => {
   const { messages, onInterview } = useContext(InterviewStoreContext);
-  const { setToken, setUserId } = useContext(UserStoreContext);
+  const { userType, setToken, setUserId, setUserType } =
+    useContext(UserStoreContext);
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -89,8 +91,10 @@ const InterviewPage = observer(() => {
     console.log(searchParams);
     const token = searchParams.get("token") as string;
     const userId = searchParams.get("userId") as string;
+    const userType = searchParams.get("userType") as string;
     setToken(token);
     setUserId(userId);
+    setUserType(userType);
   }, []);
 
   return (
@@ -112,10 +116,12 @@ const InterviewPage = observer(() => {
               </ChatMessageText>
             </ChatMessage>
           ))}
-          <RecorderButton />
-          {onInterview && <EndInterviewButton />}
+          {userType === UserType.INDIVIDUAL && <RecorderButton />}
+          {userType === UserType.INDIVIDUAL && onInterview && (
+            <EndInterviewButton />
+          )}
         </InterviewContainer>
-        <UserMessageInput />
+        {userType === UserType.INDIVIDUAL && <UserMessageInput />}
       </PanelContainer>
     </Container>
   );

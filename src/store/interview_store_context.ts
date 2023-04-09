@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import { createContext, useContext } from "react";
 import { InterviewSetting, Message } from "../types.ts/schems";
+import { playBotVoice } from "../utils/voice";
 
 class InterviewStore {
   @observable
@@ -35,6 +36,9 @@ class InterviewStore {
   @action
   addMessage = (message: Message) => {
     this.messages = [...this.messages, message];
+    if (message.role === "bot" && message.voice) {
+      playBotVoice(message.voice);
+    }
   };
 
   @action

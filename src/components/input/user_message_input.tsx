@@ -56,7 +56,6 @@ const UserMessageInput = observer(() => {
     );
     console.log(botResponse);
     addMessage({ role: "bot", text: botResponse.bot_chat.text });
-    playBotVoice(botResponse.bot_chat.voice);
   };
 
   return (

@@ -1,6 +1,7 @@
 export type Message = {
   role: "user" | "bot" | "admin";
   text: string;
+  voice?: string;
 };
 
 export type InterviewSetting = {

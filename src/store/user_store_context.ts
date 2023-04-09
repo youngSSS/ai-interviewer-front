@@ -1,3 +1,4 @@
+import { HiveTwoTone } from "@mui/icons-material";
 import { observable, autorun, action } from "mobx";
 import { createContext, useContext } from "react";
 import { InterviewSetting, Interview } from "../types.ts/schems";
@@ -7,6 +8,9 @@ class UserStore {
   userId?: string;
 
   token?: string;
+
+  @observable
+  userType?: string;
 
   @observable
   selectedInterviewSetting?: InterviewSetting;
@@ -22,19 +26,14 @@ class UserStore {
     this.userId = userId;
   };
 
-  // @action
-  // selectInterviewSetting = (interviewSetting: InterviewSetting) => {
-  //   this.selectedInterviewSetting = interviewSetting;
-  // };
+  @action
+  setUserType = (userType: string) => {
+    this.userType = userType;
+  };
 
   public setToken = (token: string) => {
     this.token = token;
   };
-
-  constructor() {
-    // fetchInterviewSettings
-    // fetchInterviewHistory
-  }
 }
 
 export const userStore = new UserStore();

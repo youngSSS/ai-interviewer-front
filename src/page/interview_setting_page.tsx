@@ -12,6 +12,7 @@ import {
 import { useUserStore } from "../store/user_store_context";
 import StartInterviewButton from "../components/buttons/start_interview_button";
 import AddIcon from "@mui/icons-material/Add";
+import { UserType } from "../constants";
 
 const Container = styled.div`
   max-width: 800px;
@@ -81,16 +82,16 @@ const InterviewSettingsPage = observer(() => {
     setSelectdeId,
     selectedIdx,
   } = useContext(InterviewSettingStoreConext);
-  const { userId, token } = useUserStore();
+  const { userId, token, userType } = useUserStore();
   const handleDialogOnClose = () => setShowModal(false);
 
-  // useEffect(() => {
-  //   const fetchInterviewSettings = async () => {
-  //     const settings = await fetchInterviewSettingsService(userId, token);
-  //     setInterviewSettings(settings);
-  //   };
-  //   fetchInterviewSettings();
-  // }, []);
+  useEffect(() => {
+    const fetchInterviewSettings = async () => {
+      const settings = await fetchInterviewSettingsService(userId, token);
+      setInterviewSettings(settings);
+    };
+    fetchInterviewSettings();
+  }, []);
 
   console.log(interviewSettings);
 
@@ -216,7 +217,10 @@ const InterviewSettingsPage = observer(() => {
             >
               Edit
             </ActionButton> */}
-            <StartInterviewButton idx={idx} />
+
+            {userType === UserType.INDIVIDUAL && (
+              <StartInterviewButton idx={idx} />
+            )}
             {/* <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
               삭제
             </ActionButton> */}

@@ -6,10 +6,11 @@ import { millisecondsToLocalTime } from "../utils/date";
 
 const InterviewHistoryPage = observer(() => {
   const { interviews } = useInterviewSettingStore();
-  const { addMessage } = useInterviewStore();
+  const { addMessage, setMessages } = useInterviewStore();
   console.log("history page", interviews);
 
   const handleRenderHistory = (interview: Interview) => {
+    setMessages([]);
     const chats = interview.chats;
     chats.map((chat) => addMessage(chat));
   };
@@ -31,7 +32,7 @@ const InterviewHistoryPage = observer(() => {
                 millisecondsToLocalTime(interview.createdAt)}
             </h5>
             <button onClick={() => handleRenderHistory(interview)}>
-              인터뷰 기록 보기
+              기록 보기
             </button>
           </div>
         ))

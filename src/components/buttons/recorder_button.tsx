@@ -106,7 +106,6 @@ const RecorderButton = observer(() => {
       console.log(messages.at(-1));
       addMessage({ role: "user", text: userMessage.text });
       addMessage({ role: "bot", text: botMessage.text });
-      playBotVoice(botResponse.bot_chat.voice);
     } else {
       startRecording();
     }
