@@ -33,7 +33,7 @@ const InterviewContainer = styled.div`
   position: relative;
 `;
 
-const ChatMessage = styled.div<{ role: "user" | "bot" }>`
+const ChatMessage = styled.div<{ role: "user" | "bot" | "admin" }>`
   display: flex;
   margin: 10px;
   flex-direction: column;
@@ -41,7 +41,7 @@ const ChatMessage = styled.div<{ role: "user" | "bot" }>`
   marginx: 10px;
 `;
 
-const ChatMessageText = styled.div<{ role: "user" | "bot" }>`
+const ChatMessageText = styled.div<{ role: "user" | "bot" | "admin" }>`
   background-color: ${({ role }) => (role === "user" ? "#2979ff" : "#ddd")};
   color: ${({ role }) => (role === "user" ? "white" : "black")};
   padding: 10px;

@@ -1,5 +1,5 @@
 export type Message = {
-  role: "user" | "bot";
+  role: "user" | "bot" | "admin";
   text: string;
 };
 
@@ -16,6 +16,7 @@ export type InterviewSetting = {
 };
 
 export type Interview = {
+  title: any;
   id: string;
   interviewSettingId: string;
   chats: Message[];

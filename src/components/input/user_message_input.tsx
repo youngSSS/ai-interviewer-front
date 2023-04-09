@@ -4,7 +4,7 @@ import styled from "styled-components";
 import InterviewStoreContext, {
   useInterviewStore,
 } from "../../store/interview_store_context";
-import { fetchBotText } from "../../api/interview_service";
+import { fetchBotResponse } from "../../api/interview_service";
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "../../store/user_store_context";
 
@@ -54,7 +54,7 @@ const UserMessageInput = observer(() => {
 
   console.log(userId, interviewId, onInterview);
   const handleUserText = async (userText: string) => {
-    const botMessage = await fetchBotText(
+    const botMessage = await fetchBotResponse(
       userId,
       interviewId,
       userText,

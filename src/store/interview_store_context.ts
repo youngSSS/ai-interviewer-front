@@ -36,6 +36,11 @@ class InterviewStore {
   addMessage = (message: Message) => {
     this.messages = [...this.messages, message];
   };
+
+  @action
+  setMessages = (messages: Message[]) => {
+    this.messages = messages;
+  };
 }
 
 export const interviewStore = new InterviewStore();

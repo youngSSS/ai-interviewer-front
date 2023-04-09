@@ -5,7 +5,7 @@ import RecordRTC, {
   invokeSaveAsDialog,
 } from "recordrtc";
 import styled from "styled-components";
-import { fetchBotText } from "../../api/interview_service";
+import { fetchBotResponse } from "../../api/interview_service";
 import InterviewStoreContext, {
   useInterviewStore,
 } from "../../store/interview_store_context";
@@ -73,16 +73,22 @@ const RecorderButton = observer(() => {
   const startRecording = async () => {
     recorder.startRecording();
     setIsRecording(true);
-    addMessage({
-      role: "user",
-      text: "현재 인터뷰어의 목소리를 녹음 중입니다. 질문에 대한 답변을 끝마치면 전송 버튼을 눌러주세요.",
-    });
   };
 
   const stopRecording = async () => {
     await recorder.stopRecording();
     setIsRecording(false);
-    addMessage({ role: "user", text: "녹음 종료." });
+    addMessage({ role: "admin", text: "녹음 종료. 답변을 기다리는 중입니다." });
+  };
+
+  const playBotVoice = (base64EncodedMP3: any) => {
+    const decodedData = window.atob(base64EncodedMP3);
+
+    const blob = new Blob([decodedData], { type: "audio/mpeg" });
+    const url = URL.createObjectURL(blob);
+
+    const audio = new Audio(url);
+    audio.play();
   };
 
   const handleOnClick = async () => {
@@ -99,27 +105,28 @@ const RecorderButton = observer(() => {
         return;
       }
       // TODO: UI improvement
-      const botMessage = await fetchBotText(
+      const botResponse = await fetchBotResponse(
         userId,
         interviewId,
         undefined,
         voiceBase64,
         token
       );
+
+      const userMessage = botResponse["user_chat"];
+      const botMessage = botResponse["bot_chat"];
+      if (messages.at(-1)?.role === "user") {
+        // user used text
+        playBotVoice(botMessage.voice);
+      } else {
+        // user used voice
+        addMessage({ role: "user", text: userMessage.text });
+      }
       addMessage({ role: "bot", text: botMessage.text });
     } else {
       startRecording();
     }
   };
-
-  useEffect(() => {
-    // 1: is 초기 셋팅 bot message수
-    if (messages.length <= 1) return;
-    if (messages.at(-1)?.role === "bot") {
-      // turn: user
-      handleOnClick();
-    }
-  }, [messages]);
 
   return (
     <div>

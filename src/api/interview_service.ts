@@ -54,7 +54,7 @@ export const endInterview = async (
   }
 };
 
-export const fetchBotText = async (
+export const fetchBotResponse = async (
   userId?: string,
   interviewId?: string,
   userText?: string,

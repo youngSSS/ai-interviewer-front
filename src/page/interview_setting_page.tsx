@@ -244,9 +244,7 @@ const InterviewSettingsPage = observer(() => {
                 onChange={(e) => setCompanyType(e.target.value)}
               />
             </label>
-            <ActionButton onClick={async () => await handleSaveSetting()}>
-              OK
-            </ActionButton>
+            <ActionButton onClick={handleSaveSetting}>OK</ActionButton>
           </Dialog>
         )}
       </SettingContainer>
