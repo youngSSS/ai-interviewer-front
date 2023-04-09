@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Interview, InterviewSetting } from "../types.ts/schems";
 import { Dialog } from "@mui/material";
@@ -7,12 +7,13 @@ import styled from "styled-components";
 import {
   createInterviewSetting as createInterviewSettingService,
   fetchInterviewHistory as fetchInterviewHistoryService,
-  fetchInterviewSettings as fetchInterviewSettingsService,
+  fetchInterviewSettings,
 } from "../api/interview_setting_service";
 import { useUserStore } from "../store/user_store_context";
 import StartInterviewButton from "../components/buttons/start_interview_button";
 import AddIcon from "@mui/icons-material/Add";
 import { UserType } from "../constants";
+import { convertToObject } from "typescript";
 
 const Container = styled.div`
   max-width: 800px;
@@ -85,15 +86,14 @@ const InterviewSettingsPage = observer(() => {
   const { userId, token, userType } = useUserStore();
   const handleDialogOnClose = () => setShowModal(false);
 
-  useEffect(() => {
-    const fetchInterviewSettings = async () => {
-      const settings = await fetchInterviewSettingsService(userId, token);
-      setInterviewSettings(settings);
-    };
-    fetchInterviewSettings();
-  }, []);
+  // interview setting
+  // const fetchInterviewSettingsService = useCallback(async () => {
+  //   await fetchInterviewSettings();
+  // }, []);
 
-  console.log(interviewSettings);
+  // useEffect(() => {
+  //   fetchInterviewSettingsService();
+  // }, []);
 
   // setInterviewSettings
   const handleInitCreateSetting = () => {
@@ -221,9 +221,9 @@ const InterviewSettingsPage = observer(() => {
             {userType === UserType.INDIVIDUAL && (
               <StartInterviewButton idx={idx} />
             )}
-            {/* <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
+            <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
               삭제
-            </ActionButton> */}
+            </ActionButton>
           </div>
         ))}
         {showModal && (

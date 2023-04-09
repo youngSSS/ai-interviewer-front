@@ -8,7 +8,7 @@ import { useUserStore } from "../../store/user_store_context";
 const Button = styled.button`
   background-color: #2979ff;
   position: fixed;
-  bottom: 150px;
+  bottom: 200px;
   border-radius: 5px;
   border: none;
   color: white;

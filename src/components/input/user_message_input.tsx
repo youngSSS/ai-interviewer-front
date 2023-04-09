@@ -6,7 +6,6 @@ import InterviewStoreContext, {
 import { fetchBotResponse } from "../../api/interview_service";
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "../../store/user_store_context";
-import { playBotVoice } from "../../utils/voice";
 
 const MessageInputContainer = styled.div`
   display: flex;
@@ -14,18 +13,15 @@ const MessageInputContainer = styled.div`
   align-items: center;
   align-self: end;
   justify-content: space-between;
-  width: 100%;
-  max-width: 600px;
-  height: 50px; /* updated */
+  width: 65%;
   padding: 10px;
   position: absolute;
-  margin-left: 900px;
-  margin-bottom: 100px;
+  margin-left: 620px;
 `;
 
 const MessageInput = styled.textarea`
   width: 100%;
-  min-height: 80px;
+  min-height: 150px;
   padding: 10px;
   border: none;
   border-top: 1px solid #ccc;

@@ -12,15 +12,15 @@ import { playBotVoice } from "../../utils/voice";
 
 const Recorder = styled.button`
   background-color: #2979ff;
-  position: fixed;
-  bottom: 100px;
   border-radius: 5px;
   border: none;
   color: white;
+  position: fixed;
+  bottom: 250px;
+  left: 300px
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-
   &:hover {
     background-color: #1854a5;
   }

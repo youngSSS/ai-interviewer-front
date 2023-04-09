@@ -74,7 +74,7 @@ export const fetchBotResponse = async (
           Authorization: token,
         },
         body: JSON.stringify({
-          text: userText,
+          user_text: userText,
           user_voice: userVoiceBase64,
         }),
       }

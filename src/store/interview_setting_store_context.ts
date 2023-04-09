@@ -25,6 +25,7 @@ class InterviewSettingStore {
   fetchInterviewSettings = async () => {
     const { token } = useUserStore();
     const settings = await fetchInterviewSettings(token);
+    console.log("fetched settings", settings);
     this.setInterviewSettings(settings);
   };
 

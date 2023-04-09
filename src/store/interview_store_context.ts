@@ -36,7 +36,9 @@ class InterviewStore {
   @action
   addMessage = (message: Message) => {
     this.messages = [...this.messages, message];
+    console.log("addmessage", message.text);
     if (message.role === "bot" && message.voice) {
+      console.log("voice", message.voice);
       playBotVoice(message.voice);
     }
   };
