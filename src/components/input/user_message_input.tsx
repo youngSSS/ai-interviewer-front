@@ -8,21 +8,14 @@ import { observer } from "mobx-react-lite";
 import { useUserStore } from "../../store/user_store_context";
 
 const MessageInputContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-self: end;
-  justify-content: space-between;
-  width: 65%;
-  padding: 10px;
-  position: absolute;
-  margin-left: 620px;
+  height: 20%;
+  padding-top: 10px;
+  padding-right: 10px;
 `;
 
 const MessageInput = styled.textarea`
+  height: 100%;
   width: 100%;
-  min-height: 150px;
-  padding: 10px;
   border: none;
   border-top: 1px solid #ccc;
   background-color: #f9f9f9;

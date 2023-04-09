@@ -11,6 +11,8 @@ import InterviewHistoryPage from "./interview_hitory_page";
 import StartInterviewButton from "../components/buttons/start_interview_button";
 import { UserType } from "../constants";
 
+import aiImage from "../ai_interviewer.png"
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,7 +25,6 @@ const InterviewContainer = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  max-width: 1200px;
   height: 80%;
   background-color: white;
   padding: 10px;
@@ -58,7 +59,7 @@ const Panel = styled.div`
   align-items: center;
   justify-content: center;
   width: 40%;
-  height: 80%;
+  height: 100%;
   background-color: white;
   padding: 10px;
   border-radius: 10px;
@@ -73,6 +74,7 @@ const TopPanel = styled.div`
   height: 20%;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 10px 0 0;
 `;
 
 const BottomPanel = styled.div`
@@ -81,10 +83,16 @@ const BottomPanel = styled.div`
   width: 100%;
   height: 20%;
   padding: 10px;
+  border-radius: 10px;
 `;
 
 const PanelTitle = styled.h2`
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 45px;
+  margin: 20px 0;
 `;
 
 const PanelContainer = styled.div`
@@ -94,6 +102,13 @@ const PanelContainer = styled.div`
   height: 100%;
   overflow: hidden;
 `;
+
+const InterviewMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+`
 
 const InterviewPage = observer(() => {
   const { messages, onInterview } = useContext(InterviewStoreContext);
@@ -118,6 +133,10 @@ const InterviewPage = observer(() => {
     <Container>
       <PanelContainer>
         <Panel>
+          <PanelTitle>
+            <img src={aiImage} alt={'aiImage'} width={45} ></img>
+            AInterviewer
+          </PanelTitle>
           <TopPanel>
             <InterviewSettingsPage />
           </TopPanel>
@@ -125,20 +144,22 @@ const InterviewPage = observer(() => {
             <InterviewHistoryPage />
           </BottomPanel>
         </Panel>
-        <InterviewContainer ref={scrollableContainerRef}>
-          {messages.map((message, index) => (
-            <ChatMessage key={index} role={message?.role}>
-              <ChatMessageText role={message?.role}>
-                {message?.text}
-              </ChatMessageText>
-            </ChatMessage>
-          ))}
-          {userType === UserType.INDIVIDUAL && <RecorderButton />}
-          {userType === UserType.INDIVIDUAL && onInterview && (
-            <EndInterviewButton />
-          )}
-        </InterviewContainer>
-        {userType === UserType.INDIVIDUAL && <UserMessageInput />}
+        <InterviewMain>
+          <InterviewContainer ref={scrollableContainerRef}>
+            {messages.map((message, index) => (
+              <ChatMessage key={index} role={message?.role}>
+                <ChatMessageText role={message?.role}>
+                  {message?.text}
+                </ChatMessageText>
+              </ChatMessage>
+            ))}
+            {userType === UserType.INDIVIDUAL && <RecorderButton />}
+            {userType === UserType.INDIVIDUAL && onInterview && (
+              <EndInterviewButton />
+            )}
+          </InterviewContainer>
+          {userType === UserType.INDIVIDUAL && <UserMessageInput />}
+        </InterviewMain>
       </PanelContainer>
     </Container>
   );
