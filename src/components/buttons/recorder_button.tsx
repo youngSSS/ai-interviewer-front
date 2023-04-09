@@ -1,17 +1,16 @@
 import { observer } from "mobx-react-lite";
+import React from "react";
 import { useState, useEffect, useContext } from "react";
-import RecordRTC, {
-  RecordRTCPromisesHandler,
-  invokeSaveAsDialog,
-} from "recordrtc";
+import RecordRTC, { RecordRTCPromisesHandler } from "recordrtc";
 import styled from "styled-components";
 import { fetchBotResponse } from "../../api/interview_service";
 import InterviewStoreContext, {
   useInterviewStore,
 } from "../../store/interview_store_context";
 import { useUserStore } from "../../store/user_store_context";
+import { playBotVoice } from "../../utils/voice";
 
-const Button = styled.button`
+const Recorder = styled.button`
   background-color: #2979ff;
   position: fixed;
   bottom: 100px;
@@ -78,17 +77,6 @@ const RecorderButton = observer(() => {
   const stopRecording = async () => {
     await recorder.stopRecording();
     setIsRecording(false);
-    addMessage({ role: "admin", text: "녹음 종료. 답변을 기다리는 중입니다." });
-  };
-
-  const playBotVoice = (base64EncodedMP3: any) => {
-    const decodedData = window.atob(base64EncodedMP3);
-
-    const blob = new Blob([decodedData], { type: "audio/mpeg" });
-    const url = URL.createObjectURL(blob);
-
-    const audio = new Audio(url);
-    audio.play();
   };
 
   const handleOnClick = async () => {
@@ -130,9 +118,9 @@ const RecorderButton = observer(() => {
 
   return (
     <div>
-      <Button onClick={handleOnClick}>
-        {isRecording ? "Finished my answer" : "Start recorder"}
-      </Button>
+      <Recorder onClick={handleOnClick}>
+        {isRecording ? "녹음 종료" : "녹음 시작"}
+      </Recorder>
     </div>
   );
 });

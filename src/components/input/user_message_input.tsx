@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
 import styled from "styled-components";
 import InterviewStoreContext, {
   useInterviewStore,
@@ -7,6 +6,7 @@ import InterviewStoreContext, {
 import { fetchBotResponse } from "../../api/interview_service";
 import { observer } from "mobx-react-lite";
 import { useUserStore } from "../../store/user_store_context";
+import { playBotVoice } from "../../utils/voice";
 
 const MessageInputContainer = styled.div`
   display: flex;
@@ -39,13 +39,6 @@ const MessageInput = styled.textarea`
   }
 `;
 
-const SendButton = styled.button`
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-`;
-
 const UserMessageInput = observer(() => {
   const { onInterview, addMessage } = useContext(InterviewStoreContext);
   const { token, userId } = useUserStore();
@@ -54,42 +47,38 @@ const UserMessageInput = observer(() => {
 
   console.log(userId, interviewId, onInterview);
   const handleUserText = async (userText: string) => {
-    const botMessage = await fetchBotResponse(
+    const botResponse = await fetchBotResponse(
       userId,
       interviewId,
       userText,
       undefined,
       token
     );
-    addMessage({ role: "bot", text: botMessage.text });
+    console.log(botResponse);
+    addMessage({ role: "bot", text: botResponse.bot_chat.text });
+    playBotVoice(botResponse.bot_chat.voice);
   };
 
   return (
     <MessageInputContainer>
       <MessageInput
-        placeholder={onInterview ? "Type an answer" : "Start interview first"}
-        onKeyDown={async (event) => {
+        placeholder={
+          onInterview ? "답변을 입력해주세요." : "인터뷰 시작을 먼저 해주세요."
+        }
+        onKeyDown={(event) => {
+          console.log(inputValue);
           if (event.key === "Enter") {
             event.preventDefault();
             addMessage({ role: "user", text: inputValue });
-            await handleUserText(inputValue);
+            handleUserText(inputValue);
             setInputValue("");
+            (event.target as HTMLTextAreaElement).value = "";
           }
         }}
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
         disabled={!onInterview}
       />
-      {/* <SendButton
-        onClick={async (event) => {
-          const input = document.querySelector("input") as HTMLInputElement;
-          if (!input) return;
-          await handleMessage(inputValue);
-          input.value = "";
-        }}
-      >
-        <SendIcon />
-      </SendButton> */}
     </MessageInputContainer>
   );
 });

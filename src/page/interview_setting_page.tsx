@@ -11,6 +11,7 @@ import {
 } from "../api/interview_setting_service";
 import { useUserStore } from "../store/user_store_context";
 import StartInterviewButton from "../components/buttons/start_interview_button";
+import AddIcon from "@mui/icons-material/Add";
 
 const Container = styled.div`
   max-width: 800px;
@@ -23,16 +24,13 @@ const Header = styled.h1`
   margin-bottom: 20px;
 `;
 
-const Button = styled.button`
-  background-color: #4caf50;
+const AddButton = styled.button`
+  background-color: #2979ff;
   border: none;
   color: white;
-  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 10px;
 
   &:hover {
     cursor: pointer;
@@ -45,13 +43,12 @@ const SettingContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #f9f9f9;
   border-radius: 5px;
   margin-bottom: 10px;
 `;
 
 const ActionButton = styled.button`
-  background-color: #f44336;
+  background-color: #2979ff;
   border: none;
   color: white;
   padding: 5px 10px;
@@ -200,14 +197,19 @@ const InterviewSettingsPage = observer(() => {
 
   return (
     <Container>
-      <Header>Interview Settings</Header>
-      <Button onClick={handleInitCreateSetting}>Create New Setting</Button>
+      <div>
+        <Header>인터뷰 셋팅 목록</Header>
+        <AddButton onClick={handleInitCreateSetting}>
+          셋팅 생성
+          <AddIcon />
+        </AddButton>
+      </div>
       <SettingContainer>
         {interviewSettings?.map((setting: InterviewSetting, idx) => (
           <div key={idx}>
             <ActionButton>{setting.title}</ActionButton>
             <ActionButton onClick={async () => await handleHistoryOnClick(idx)}>
-              history
+              면접 기록 조회
             </ActionButton>
             {/* <ActionButton
               onClick={async () => await handleEditSetting(idx, setting)}
@@ -215,9 +217,9 @@ const InterviewSettingsPage = observer(() => {
               Edit
             </ActionButton> */}
             <StartInterviewButton idx={idx} />
-            <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
-              Delete
-            </ActionButton>
+            {/* <ActionButton onClick={async () => await handleDeleteSetting(idx)}>
+              삭제
+            </ActionButton> */}
           </div>
         ))}
         {showModal && (

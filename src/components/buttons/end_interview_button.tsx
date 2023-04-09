@@ -41,7 +41,7 @@ const EndInterviewButton = observer(() => {
     const finalMessage = await endInterview(userId, interviewId, token);
 
     console.log("end ends");
-    let botText = finalMessage.chat.text;
+    let botText = finalMessage.text;
     // if (finalMessage.chat.voice) {
     //   botText = "voice text";
     // }
@@ -50,7 +50,7 @@ const EndInterviewButton = observer(() => {
     console.log(botText);
   };
   return (
-    <Button onClick={async () => await hanldeOnClick()}>End Interview</Button>
+    <Button onClick={async () => await hanldeOnClick()}>인터뷰 종료</Button>
   );
 });
 

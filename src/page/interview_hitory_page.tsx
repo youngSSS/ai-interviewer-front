@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useInterviewSettingStore } from "../store/interview_setting_store_context";
 import { useInterviewStore } from "../store/interview_store_context";
 import { Interview } from "../types.ts/schems";
-import { millisecondsToLocalTime } from "../utils.ts/date";
+import { millisecondsToLocalTime } from "../utils/date";
 
 const InterviewHistoryPage = observer(() => {
   const { interviews } = useInterviewSettingStore();
